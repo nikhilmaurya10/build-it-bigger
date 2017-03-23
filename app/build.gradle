@@ -18,7 +18,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        free {
+            applicationId 'com.udacity.gradle.builditbigger.free'
+        }
+        paid {
+            applicationId 'com.udacity.gradle.builditbigger.paid'
+        }
+    }
 
+    sourceSets {
+        free { java.srcDirs = ['src/free/java', 'src/free/java/'] }
+        paid { java.srcDirs = ['src/paid/java', 'src/paid/java/'] }
+    }
 }
 
 dependencies {
@@ -30,7 +42,7 @@ dependencies {
     compile project(':jokeproviderlib')
     compile project(':jokepresenterlib')
     compile 'com.android.support:appcompat-v7:25.3.0'
-    compile 'com.google.android.gms:play-services-ads:10.2.1'
+    freeCompile 'com.google.android.gms:play-services-ads:10.2.1'
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile('com.google.api-client:google-api-client-android:1.22.0') {
