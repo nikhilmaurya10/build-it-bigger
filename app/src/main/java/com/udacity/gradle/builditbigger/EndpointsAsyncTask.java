@@ -19,10 +19,19 @@ import java.io.IOException;
 
 public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     private static MyApi myApiService = null;
+    private Callback callback;
     private Context context;
+    public EndpointsAsyncTask(Callback callback) {
+        this.callback = callback;
+    }
 
     @Override
     protected String doInBackground(Context... params) {
+        try {
+            Thread.sleep(2000);         //should not be done. It's a dirty hack.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -51,8 +60,10 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Intent jokeIntent = new Intent(context, JokeActivity.class);
-        jokeIntent.putExtra(JokeActivity.ARG_JOKE, result);
-        context.startActivity(jokeIntent);
+        callback.done(result);
+    }
+
+    public interface Callback{
+        void done(String result);
     }
 }
