@@ -17,3 +17,10 @@ allprojects {
         jcenter()
     }
 }
+task testProject(dependsOn: [":backend:appengineRun",
+                              ":app:connectedAndroidTest",
+                              ':backend:appengineStop']) {
+    doLast {
+        println 'optionalTask completed'
+    }
+}

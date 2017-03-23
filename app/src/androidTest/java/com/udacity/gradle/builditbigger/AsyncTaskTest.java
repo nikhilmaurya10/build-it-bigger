@@ -16,15 +16,21 @@ import java.util.concurrent.ExecutionException;
 
 
 @RunWith(AndroidJUnit4.class)
-public class AsyncTaskTest  {
-
+public class AsyncTaskTest implements EndpointsAsyncTask.Callback {
+    EndpointsAsyncTask.Callback callback;
     @Rule
     public ActivityTestRule mActivityRule = new ActivityTestRule<>(
             MainActivity.class);
+
+    @Override
+    public void done(String result) {
+
+    }
+
     @Test
     public void testAsyncTask() {
 
-        final EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask();
+        final EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask(this);
         String result=null;
 
         endpointsAsyncTask.execute(mActivityRule.getActivity());
